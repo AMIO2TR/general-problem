@@ -1,20 +1,9 @@
-from cryptography import x509
-from cryptography.hazmat.primitives.asymmetric import rsa
-from cryptography.hazmat.primitives import serialization
+#decrypt the .pem file (rsa_key.d use for decrypt the number )
 
-# Load the DER-encoded certificate
-with open("2048b_rsa_example_cert.der", "rb") as f:
-    cert_data = f.read()
+import Crypto
+from Crypto.PublicKey import RSA
 
-# Parse the certificate
-cert = x509.load_der_x509_certificate(cert_data)
-
-# Extract the public key
-public_key = cert.public_key()
-
-# Ensure it's an RSA key
-if isinstance(public_key, rsa.RSAPublicKey):
-    modulus = public_key.public_numbers().n
-    print(f"Modulus (n): {modulus}")
-else:
-    print("The public key is not an RSA key.")
+with open("private.pem", "rb") as f:
+    key = f.read()
+    rsa_key = RSA.importKey(key)
+    print(rsa_key.d)
